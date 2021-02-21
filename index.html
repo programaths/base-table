@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tables de multiplication</title>
+    <script>
+        document.addEventListener('DOMContentLoaded',function(){
+            let mTable = document.querySelector('#multiplication-table');
+            let createTableBtn = document.querySelector('#create-table');
+            let base = document.querySelector('#base');
+
+            let digits="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+            function convertToBase(n,b){
+                let result = '';
+                let digit;
+                while(n>=b){
+                    digit = n%b;
+                    result = digits[digit]+result;
+                    n=(n-digit)/b;
+                }
+
+                    console.log(n);
+                    result = digits[n] + result;
+
+                return result;
+            }
+
+            createTableBtn.addEventListener('click',function(){
+                let b = base.value;
+                let header = "<th>&times;</th>";
+                for(let i=0;i<b;i++){
+                    header=header+`<th>${convertToBase(i,b)}</th>`;
+                }
+                header = `<tr>${header}</tr>`;
+                let rows = "";
+                for(let i=0;i<b;i++){
+                    let row=`<th>${convertToBase(i,b)}</th>`;
+                    for(let j=0;j<b;j++){
+                        row = `${row}<td>${convertToBase(i*j,b)}</td>`;
+                    }
+                    rows = `${rows}<tr>${row}</tr>`;
+                }
+                mTable.innerHTML=`<thead>${header}</thead><tbody>${rows}</tbody>`;
+            });
+        });
+    </script>
+    <style>
+        table{
+            border-collapse: collapse;
+            border: 1px solid black;
+        }
+        td,th{
+            border-collapse: collapse;
+            border: 1px solid black;
+            padding: 1em;
+        }
+        #multiplication-table{
+            margin-top: 1em;
+        }
+        tr:hover{
+            background-color: aquamarine;
+        }
+    </style>
+</head>
+<body>
+    <label for="base">Base:</label><input id="base" type="number"><button id="create-table">Créer la table de multiplication</button>
+    <table id="multiplication-table">
+    </table>
+</body>
+</html>
